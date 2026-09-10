@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Licensed Cannabis Marketplace"
+description = "A jurisdiction-aware cannabis marketplace prototype with buyer discovery, licensed seller operations, age-gated onboarding, and admin compliance oversight."
+version = "1.0.0"
+id = "artifacts/cannabis-marketplace"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25970
+
+[services.development]
+run = "pnpm --filter @workspace/cannabis-marketplace run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cannabis-marketplace", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/cannabis-marketplace/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25970"
+BASE_PATH = "/"
